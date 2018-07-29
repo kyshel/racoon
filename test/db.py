@@ -50,8 +50,13 @@ def get_target_byname(name):
 	return result.fetchone()
 
 def get_targets():
-	result = conn.execute(select([targets]))
-	return result
+	try:
+		result = conn.execute(select([targets]))
+	except Exception as e:
+		logging.debug(e)
+		return -1
+	else:
+		return result
 
 def add_target(target_new):
 	try:

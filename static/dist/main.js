@@ -1,11 +1,11 @@
-var API_PATH="/api";
+var API_PATH="/api2";
 
 $(document).ready(function(){
 	 // abs path recommned
 
 
 
-	$('#textarea-urls-raw').val(' github.com \n  http://nixni.cc  \n 8.8.8.8');
+	$('#textarea-urls-raw').val(' github.com \n  http://kyshel.me  \n 8.8.8.8');
 
 	$("#btn-urls-seq").on("click", function() {
 		init_view();

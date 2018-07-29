@@ -1,58 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>racoon</title>
+	<title>Redirector</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="/dist/style.css">
 </head>
 <body>
-	<div id="sec-options">
 
-		<input type="checkbox" id="cb-add-http" name="">add http://
-		<input type="checkbox" id="cb-add-https" name="">add https://
-		<input type="checkbox" id="cb-add-ftp" name="">add ftp://
-		<button id="btn-preview">hover me to preview</button>
-
-	</div>
-
-	
-
-
-	<div id="sec-surls">
-
-		
-		<button id="btn-urls-seq" class="btn-ajax">sequential</button>
-		<button id="btn-url-submit" class="btn-ajax">entire</button><br>
-		<textarea id="textarea-urls-raw" class="ta-urls" placeholder="paste target-urls here ..."></textarea>
-
-		
-
-	</div>
-	
-	<div id="sec-probe">
-		<div id="response-raw"></div>
-	</div>
-
-	<div id="sec-loader">
-		
-	</div>
-
-
-
-
-
-
-
-
-
-
-
-	<script
-	src="./dist/jquery-3.3.1.min.js"
-	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-	crossorigin="anonymous"></script>
-
-	<script src="./dist/jquery.highlight.js"></script>
-	<script src="./dist/main.js"></script>
+	<script>
+		// similar behavior as an HTTP redirect
+window.location.replace("/targets.html");
+	</script>
 </body>
 </html>

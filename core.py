@@ -9,7 +9,16 @@ from util import *
 def do_targets(request):
 	jsonDict = {"status":1}
 	if request.method == 'GET':
-		jsonDict = as_dict(db.get_targets())
+		result = db.get_targets()
+		status = 0 if result == -1 else 1
+		jsonDict = {
+			"action":"list targets",
+			"status":status,
+			"data":as_dict(result),
+		}
+
+		#jsonDict = as_dict(result)
+
 
 	elif request.method == 'POST':
 		id_added=db.add_target(request.json['name'])

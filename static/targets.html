@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>racoon > targets</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="/dist/tabulator.css">
+	<style type="text/css">
+	.top-centered {
+		position: fixed;
+		left: 50%;
+		transform: translate(-50%);
+	}
+	</style>
+
+</head>
+<body>
+	<div id="popup-container" class="top-centered">
+		<div id="last-popup"></div>
+	</div>
+	<input type="text" id="input-target-new" name="" value="qqq">
+	<button id="btn-add-target">Add</button>
+
+	<br><br>
+
+	<input type="checkbox" id="table-checker" name="">Check ALL
+
+	<button id="getSelectedData">getSelectedData</button>
+	<div id="example-table"></div>
+
+
+
+
+
+	<script
+	src="/dist/jquery-3.3.1.min.js"
+	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	crossorigin="anonymous"></script>
+	<script src="/dist/jquery-ui.js"></script>
+	<script src="/dist/tabulator.js"></script>
+
+	<script type="text/javascript">
+		var API_PATH='/api/targets';
+		var DEBUG_SWITCH= 0
+
+		$("#example-table").tabulator({
+			responsiveLayout:true, // hide rows that no longer fit
+			placeholder:"No Data Set",
+			columns:[
+			{title:"id", field:"id", sorter:"number"},
+			{title:"time", field:"time", sorter:"string" },
+			{title:"target", field:"target", sorter:"string"},
+			],
+			selectable:true,
+			layout:"fitColumns",
+			layoutColumnsOnNewData:true,
+
+			ajaxResponse:function(url, params, response){
+				return response.data; 
+			},
+		});
+
+		reload_table('#example-table')
+
+		$('#table-checker').change(function(){
+			if ($(this).is(':checked')) {
+				$("#example-table").tabulator("selectRow");
+			}else{
+				$("#example-table").tabulator("deselectRow"); 
+			}
+		});
+
+		$("#getSelectedData").click(function(){
+			var selectedData = $("#example-table").tabulator("getSelectedData");
+			var ids_selected=[]
+			for (var i = selectedData.length - 1; i >= 0; i--) {
+				ids_selected.push(selectedData[i].id)
+			}
+
+			console.log(ids_selected);
+		});
+
+		$("#btn-add-target").click(function(){
+			var target_new = $('#input-target-new').val();
+			post_data={name:target_new}
+			$.ajax({
+				method: "POST",
+				url: API_PATH,
+				data: JSON.stringify(post_data),
+				dataType:'json',
+				contentType: 'application/json;charset=UTF-8',
+			}).done( function(response,status,xhr) {
+				logger(response)
+
+				if (response.status) {
+					info="Add OK! check id: " + response.id_added
+				}else{
+					info="Error! check if duplicated."
+				}
+
+				popup(info)
+				reload_table('#example-table')
+
+			}).fail( function(e) {
+				console.log(e)
+			});
+
+		});
+
+
+
+
+
+
+		
+		function popup(info){
+			$('<div id="popup">'+info+'</div>')
+			.insertBefore('#last-popup').delay(3000).fadeOut();
+		}
+
+		function logger(to_see){
+			if (DEBUG_SWITCH) {
+				console.log(to_see)
+			}
+		}
+
+		function reload_table(table){
+			$(table).tabulator("setData", API_PATH);
+		}
+
+	</script>
+
+
+</body>
+</html>
